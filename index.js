@@ -10,10 +10,18 @@ dotenv.config();
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
-    rejectUnauthorized: false, // necessary for Supabase
+    rejectUnauthorized: false,
   },
+  // Add this to force IPv4
+  connectionTimeoutMillis: 5000,
+  idleTimeoutMillis: 30000,
+  // Some environments need this:
+  host: process.env.DATABASE_URL.split('@')[1].split(':')[0],
+  user: process.env.DATABASE_URL.split('://')[1].split(':')[0],
+  password: process.env.DATABASE_URL.split(':')[2].split('@')[0],
+  database: process.env.DATABASE_URL.split('/').pop(),
+  port: 5432
 });
-
 const twilioClient = new twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
 const app = express();
