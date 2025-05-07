@@ -11,27 +11,7 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false,
-    // Add these for Render.com compatibility
-    require: true,
   },
-  // Force IPv4 if IPv6 isn't working
-  connectionTimeoutMillis: 5000,
-  // Additional production-ready settings
-  max: 10, // Maximum number of clients in the pool
-  idleTimeoutMillis: 30000,
-});
-
-// Test the connection immediately
-pool.query('SELECT NOW()')
-  .then(() => console.log('Pool connected successfully'))
-  .catch(err => {
-    console.error('Pool connection failed:', err);
-    process.exit(1); // Exit if can't connect
-  });
-
-// Handle connection errors
-pool.on('error', (err) => {
-  console.error('Unexpected database error:', err);
 });
 
 
