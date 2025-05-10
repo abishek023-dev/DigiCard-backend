@@ -119,7 +119,7 @@ app.patch("/api/requests/:username/:action", async (req, res) => {
 app.get("/api/requests/pending", async (req, res) => {
   try {
     const result = await client.query(
-      `SELECT * FROM requests WHERE status = 'Pending' ORDER BY requested_at DESC`
+      `SELECT * FROM requests WHERE status = 'Pending' AND type in ('in', 'out') ORDER BY requested_at DESC`
     );
     res.status(200).json(result.rows);
   } catch (err) {
